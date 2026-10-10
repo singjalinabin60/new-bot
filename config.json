@@ -70,7 +70,7 @@
   "spamProtection": {
     "commandThreshold": 8,
     "timeWindow": 10,
-    "banDuration": 24,
+    "banDuration": 0,
     "notes": "Auto-ban threads when users spam commands. commandThreshold: number of commands, timeWindow: seconds, banDuration: hours"
   },
   "autoRestart": {
@@ -141,7 +141,7 @@
   "optionsFca": {
     "online": true,
     "autoListen": false,
-    "selfListen": true,
+    "selfListen": false,
     "selfListenEvent": true,
     "listenEvents": true,
     "listenTyping": true,
