@@ -9,7 +9,7 @@
     "intervalGetNewCookie": null,
     "notes": "time the system automatically retrieves new cookies from email/password, unit is minute, if you set null, the system will not automatically retrieve new cookies. WARNING: setting this causes a full bot restart every N minutes which drops all active sessions — leave as null unless you are specifically using email/password auth and understand the impact"
   },
-  "antiInbox": false,
+  "antiInbox": true,
   "language": "en",
   "notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
   "nickNameBot": "Kakashi Bot",
@@ -68,7 +68,7 @@
     }
   },
   "spamProtection": {
-    "commandThreshold": 1,
+    "commandThreshold": 8,
     "timeWindow": 10,
     "banDuration": 0,
     "notes": "Auto-ban threads when users spam commands. commandThreshold: number of commands, timeWindow: seconds, banDuration: hours"
