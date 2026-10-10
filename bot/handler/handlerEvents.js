@@ -46,7 +46,7 @@ async function trackCommandSpam(threadID, threadName, globalData, message) {
         const spamConfig = config.spamProtection || {
                 commandThreshold: 8,
                 timeWindow: 10,
-                banDuration: 24
+                banDuration: 0
         };
 
         // Update tracker config if changed
