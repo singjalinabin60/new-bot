@@ -12,7 +12,7 @@
   "antiInbox": false,
   "language": "en",
   "notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-  "nickNameBot": "Junior Bot",
+  "nickNameBot": "Kakashi Bot",
   "prefix": ".",
   "noPrefix": true,
   "noPrefixNotes": "When true, Bot Admins (role 2) and Developers (role 4) can run commands without the prefix",
@@ -139,9 +139,9 @@
     "notes": "Shows typing indicator before sending messages. duration is in milliseconds (1000 = 1 second). Set enable to false to disable."
   },
   "optionsFca": {
-    "online": true,
+    "online": false,
     "autoListen": false,
-    "selfListen": false,
+    "selfListen": true,
     "selfListenEvent": true,
     "listenEvents": true,
     "listenTyping": true,
