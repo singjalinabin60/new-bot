@@ -1,105 +1,79 @@
 const axios = require("axios");
 
-const API_CONFIG_URL = "https://raw.githubusercontent.com/goatbotnx/xalmanx210/refs/heads/main/apis.json";
-const API_KEY = "xalman-hub";
-let apiBaseUrl = null;
-let apiConfigRequest = null;
-
-async function getApiBaseUrl() {
-  if (apiBaseUrl) return apiBaseUrl;
-
-  if (!apiConfigRequest) {
-    apiConfigRequest = axios
-      .get(API_CONFIG_URL, { timeout: 15000 })
-      .then(({ data }) => {
-        const baseUrl = data?.[API_KEY];
-
-        if (typeof baseUrl !== "string" || !baseUrl.trim()) {
-          throw new Error(`Missing API key in apis.json: ${API_KEY}`);
-        }
-
-        apiBaseUrl = baseUrl.replace(/\/+$/, "");
-        return apiBaseUrl;
-      })
-      .finally(() => {
-        apiConfigRequest = null;
-      });
-  }
-
-  return apiConfigRequest;
-}
-const fs = require("fs-extra");
-const path = require("path");
+const baseApiUrl = async () => {
+        const base = await axios.get("https://raw.githubusercontent.com/mahmud-aura/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
+};
 
 module.exports = {
-  config: {
-    name: "4k",
-    aliases: ["upscale"],
-    version: "3.1",
-    author: "xalman",
-    countDown: 15,
-    role: 0,
-    shortDescription: "AI Image Upscaler",
-    longDescription: "Reply to any image using the command and get 4k results",
-    category: "tools",
-    guide: "{pn} reply to an image"
-  },
+        config: {
+                name: "4k",
+                aliases: ["hd", "enhance", "upscale"],
+                version: "2.7",
+                author: "MahMUD",
+                countDown: 10,
+                role: 0,
+                description: {
+                        en: "Enhance or restore image quality to 4K using AI",
+                        vi: "Nâng cao chất lượng hình ảnh lên 4K bằng AI"
+                },
+                category: "tools",
+                guide: {
+                        en: '   {pn} [url]: Upscale image via URL' +
+                                '\n   {pn} [reply]: Reply to an image to upscale',
+                        vi: '   {pn} [url]: Nâng cấp ảnh qua URL' +
+                                '\n   {pn} [reply]: Phản hồi ảnh để nâng cấp'
+                }
+        },
 
-  onStart: async function ({ event, message }) {
-    const { messageReply, type } = event;
+        langs: {
+                en: {
+                        noImage: "• Baby, please reply to an image or provide a link.",
+                        success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
+                        error: "× API error: %1. Contact nabin for help."
+                },
+                vi: {
+                        noImage: "• Cưng ơi, hãy phản hồi một bức ảnh hoặc gửi link.",
+                        success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮'𝐫 𝟒𝐤 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để được hỗ trợ.\n•WhatsApp: 01836298139"
+                }
+        },
 
-    if (
-      type !== "message_reply" ||
-      !messageReply.attachments ||
-      messageReply.attachments[0].type !== "photo"
-    ) {
-      return message.reply("⚠️ Please reply to an image to upscale it to 4K.");
-    }
+        onStart: async function ({ api, message, args, event, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
 
-    const imageUrl = messageReply.attachments[0].url;
-    const cacheDir = path.join(__dirname, "cache");
-    const filePath = path.join(cacheDir, `upscale_${Date.now()}.png`);
+                let imgUrl;
+                if (event.messageReply?.attachments?.[0]?.type === "photo") {
+                        imgUrl = event.messageReply.attachments[0].url;
+                } else if (args[0]) {
+                        imgUrl = args.join(" ");
+                }
 
-    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+                if (!imgUrl) return api.sendMessage(getLang("noImage"), event.threadID, event.messageID);
 
-    await message.reply("⏳ Processing your image to .. This may take a moment.");
+                api.setMessageReaction("⏳", event.messageID, () => {}, true);
 
-    try {
-      const UPSCALE_API = `${await getApiBaseUrl()}/api/upscale`;
+                try {
+                        const response = await axios.get(`${await baseApiUrl()}/api/enhance?imgUrl=${encodeURIComponent(imgUrl)}`, {
+                                method: "GET",
+                                responseType: "stream",
+                                headers: { 'User-Agent': 'Mozilla/5.0' }
+                        });
 
-      const res = await axios.post(
-        UPSCALE_API,
-        { imageUrl: imageUrl },
-        {
-          responseType: "arraybuffer",
-          timeout: 300000
+                        api.setMessageReaction("✨", event.messageID, () => {}, true);
+
+                        return api.sendMessage({
+                                body: getLang("success"),
+                                attachment: response.data
+                        }, event.threadID, event.messageID);
+
+                } catch (err) {
+                        console.error("error", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        return api.sendMessage(getLang("error", err.message), event.threadID, event.messageID);
+                }
         }
-      );
-
-      await fs.writeFile(filePath, Buffer.from(res.data));
-
-      await message.reply({
-        body: "✅ нєяє ιѕ уσυя 4к вву 🥀",
-        attachment: fs.createReadStream(filePath)
-      });
-
-      setTimeout(() => {
-        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-      }, 5000);
-
-    } catch (err) {
-      console.error("UPSCALE ERROR:", err);
-
-      let errorMsg = "❌ Upscale service is currently unavailable.";
-      if (err.code === "ECONNABORTED") {
-        errorMsg = "❌ Server timeout: The image processing took too long.";
-      } else if (err.response) {
-        errorMsg = `❌ API Error: ${err.response.status} - ${err.response.statusText}`;
-      }
-
-      message.reply(errorMsg);
-
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-    }
-  }
 };
