@@ -151,7 +151,7 @@ module.exports = {
     name: "sing",
     aliases: ["music"],
     version: "2.0",
-    author: "Mueid Mursalin Rifat & Fahad islam",
+    author: "nabin",
     countDown: 5,
     role: 0,
     category: "media",
@@ -321,7 +321,7 @@ async function handleDownload(url, message, waitMsgID, metadata) {
     const finalSize = fileSizeMB !== "Unknown" ? fileSizeMB : actualFileSizeMB;
 
     await message.reply({
-      body: `🎵 ${title}\n🎤 ${channel}\n⏱ ${duration}\n👁 ${formatViews(views)} views\n📦 ${finalSize} MB\n🔧 API: ${base}\n\n🔖 Author: Mueid Mursalin Rifat`,
+      body: `🎵 ${title}\n🎤 ${channel}\n⏱ ${duration}\n👁 ${formatViews(views)} views\n📦 ${finalSize} MB\n🔧 API: ${base}\n\n🔖 Author: Nabin Mgrx`,
       attachment: fs.createReadStream(filePath)
     });
 
@@ -352,7 +352,7 @@ async function generateSearchImage(results, query, page, totalPages) {
 
   ctx.fillStyle = "#00b4d8";
   ctx.font = "bold 46px 'Segoe UI', Arial, sans-serif";
-  ctx.fillText("🎵 SHADOWX MUSIC", PADDING, 85);
+  ctx.fillText("🎵 SAKURA X MUSIC", PADDING, 85);
 
   ctx.fillStyle = "#caf0f8";
   ctx.font = "24px 'Segoe UI', Arial, sans-serif";
@@ -446,7 +446,7 @@ async function generateSearchImage(results, query, page, totalPages) {
   ctx.fillText("📌 Reply 1-6 to Download • Type 'next' or 'prev' for more", W / 2, footerY);
   ctx.fillStyle = "#6c757d";
   ctx.font = "15px 'Segoe UI', Arial, sans-serif";
-  ctx.fillText("Developer: Mueid Mursalin Rifat", W / 2, footerY + 30);
+  ctx.fillText("Developer: Nabin mgrx", W / 2, footerY + 30);
   ctx.textAlign = "left";
 
   return canvas.toBuffer("image/jpeg", { quality: 0.92 });
