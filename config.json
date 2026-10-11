@@ -9,7 +9,7 @@
     "intervalGetNewCookie": null,
     "notes": "time the system automatically retrieves new cookies from email/password, unit is minute, if you set null, the system will not automatically retrieve new cookies. WARNING: setting this causes a full bot restart every N minutes which drops all active sessions — leave as null unless you are specifically using email/password auth and understand the impact"
   },
-  "antiInbox": true,
+  "antiInbox": false,
   "language": "en",
   "notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
   "nickNameBot": "SAKURA BOT",
@@ -94,7 +94,7 @@
   "autoRestartWhenListenMqttError": false,
   "restartListenMqtt": {
     "enable": true,
-    "timeRestart": 160000,
+    "timeRestart": 3600000,
     "delayAfterStopListening": 2000,
     "logNoti": true,
     "notes": "the value of timeRestart and delayAfterStopListening is milisecond, You shouldn't edit this if you don't know what it is"
@@ -139,7 +139,7 @@
     "notes": "Shows typing indicator before sending messages. duration is in milliseconds (1000 = 1 second). Set enable to false to disable."
   },
   "optionsFca": {
-    "online": false,
+    "online": true,
     "autoListen": false,
     "selfListen": true,
     "selfListenEvent": true,
