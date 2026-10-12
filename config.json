@@ -12,7 +12,7 @@
   "antiInbox": false,
   "language": "en",
   "notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-  "nickNameBot": "SAKURA BOT",
+  "nickNameBot": "HINATA BOT",
   "prefix": ".",
   "noPrefix": true,
   "noPrefixNotes": "When true, Bot Admins (role 2) and Developers (role 4) can run commands without the prefix",
@@ -25,23 +25,26 @@
     "1496599381339519"
   ],
   "premiumUsers": [
-    "100087555698178"
+    "100087555698178",
+    "1496599381339519"
   ],
   "devUsers": [
-    "100087555698178"
+    "100087555698178",
+    "1496599381339519"
   ],
   "notes_premiumUsers": "List of user IDs with premium access (role 3)",
   "notes_devUsers": "List of developer IDs with full access (role 4)",
   "whiteListMode": {
     "enable": false,
     "whiteListIds": [
-      "100087555698178"
+      "100087555698178",
+      "1496599381339519"
     ],
     "notes": "if you enable this feature, only the ids in the whiteListIds list can use the bot"
   },
   "whiteListModeThread": {
     "enable": false,
-    "whiteListThreadIds": [],
+    "whiteListThreadIds": ["1496599381339519","100087555698178"],
     "notes": "if you enable this feature, only the thread in the whiteListThreadIds list can use the bot",
     "how_it_work": "if you enable both whiteListMode and whiteListModeThread, the system will check if the user is in whiteListIds, then check if the thread is in whiteListThreadIds, if one of the conditions is true, the user can use the bot"
   },
@@ -70,7 +73,7 @@
   "spamProtection": {
     "commandThreshold": 8,
     "timeWindow": 10,
-    "banDuration": 0,
+    "banDuration": 1,
     "notes": "Auto-ban threads when users spam commands. commandThreshold: number of commands, timeWindow: seconds, banDuration: hours"
   },
   "autoRestart": {
